@@ -6,4 +6,4 @@ To learn about pulsars, watch these two videos-
 
 - https://www.youtube.com/watch?v=bKkh7viXjqs - By Astronomate.  
 
-
+- 
