@@ -5,11 +5,8 @@ To learn about pulsars, watch these two videos-
 - https://www.youtube.com/watch?v=gjLk_72V9Bw -This is by NASA's Goddard Space Center
 - https://www.youtube.com/watch?v=bKkh7viXjqs - By Astronomate.  
 
-I would highly recommend that you read this post
-- !https://as595.github.io/classification/](https://as595.github.io/classification/)
-
-## Why do we we need to classify pulsars?
-They can be easily confused with other signals- this data set, for example has ~16,000 false detection out of ~17,000 entries  .
+I would **highly** recommend that you read this post
+- [https://as595.github.io/classification/](https://as595.github.io/classification/)
 ## Sample(of size 4) of the data used
 
 | #   | Mean of the integrated profile | Standard deviation of the integrated profile | Excess kurtosis of the integrated profile | Skewness of the integrated profile | Mean of the DM-SNR curve | Standard deviation of the DM-SNR curve | Excess kurtosis of the DM-SNR curve | Standard deviation of the DM-SNR curve | Skewness of the DM-SNR curve | target_class_ |
@@ -19,6 +16,8 @@ They can be easily confused with other signals- this data set, for example has ~
 | 2   | 103.015625                     | 39.341649                                    | 0.323328                                  | 1.051164                           | 3.121237                 | 21.744669                              | 7.735822                            | 63.171909                              | 63.171909                    | 0             |
 | 3   | 136.750000                     | 57.178449                                    | -0.068415                                 | -0.636238                          | 3.642977                 | 20.959280                              | 6.896499                            | 53.593661                              | 53.593661                    | 0             |
 | 4   | 88.726562                      | 40.672225                                    | 0.600866                                  | 1.123492                           | 1.178930                 | 11.468720                              | 14.269573                           | 252.567306                             | 252.567306                   | 0             |
+
+## Designing the model
 
 # Credits
 
