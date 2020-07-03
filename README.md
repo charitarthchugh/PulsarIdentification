@@ -5,7 +5,7 @@ To learn about pulsars, watch these two videos-
 - https://www.youtube.com/watch?v=gjLk_72V9Bw -This is by NASA's Goddard Space Center
 - https://www.youtube.com/watch?v=bKkh7viXjqs - By Astronomate.  
 
-I would **highly** recommend that you read this post
+I would **highly** recommend that you read this post:
 - [https://as595.github.io/classification/](https://as595.github.io/classification/)
 ## Sample(of size 4) of the data used
 
