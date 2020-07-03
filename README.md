@@ -1,13 +1,14 @@
-# Predicting Pulsars
+# Predicting Pulsars using the HTRU 2 Data set
 
 To learn about pulsars, watch these two videos-
 
 - https://www.youtube.com/watch?v=gjLk_72V9Bw -This is by NASA's Goddard Space Center
 
 - https://www.youtube.com/watch?v=bKkh7viXjqs - By Astronomate.   
-  
-  
 
+
+## Why do we we need to classify pulsars?
+They can be easily confused with other signals- this data set, for example has ~16,000 false detection out of ~17,000 entries  
 ## Sample(of size 4) of the data used
 
 | #   | Mean of the integrated profile | Standard deviation of the integrated profile | Excess kurtosis of the integrated profile | Skewness of the integrated profile | Mean of the DM-SNR curve | Standard deviation of the DM-SNR curve | Excess kurtosis of the DM-SNR curve | Standard deviation of the DM-SNR curve | Skewness of the DM-SNR curve | target_class_ |
@@ -20,7 +21,7 @@ To learn about pulsars, watch these two videos-
 
 # Credits
 
-R. J. Lyon, B. W. Stappers, S. Cooper, J. M. Brooke, J. D. Knowles, 
-Fifty Years of Pulsar Candidate Selection: From simple filters to a new 
-principled real-time classification approach, Monthly Notices of the 
+R. J. Lyon, B. W. Stappers, S. Cooper, J. M. Brooke, J. D. Knowles,
+Fifty Years of Pulsar Candidate Selection: From simple filters to a new
+principled real-time classification approach, Monthly Notices of the
 Royal Astronomical Society 459 (1), 1104-1123, DOI: 10.1093/mnras/stw656
