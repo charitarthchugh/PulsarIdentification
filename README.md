@@ -19,6 +19,7 @@ I would **highly** recommend that you read this post:
 
 ## Designing and Creating the model
 In this project, I decided to create a very simple Logistic Regression model (no ResNets be seen) that classifies pulsars.  
+
 ### Ingest and preprocess data
 #### Ingestion
 The **easiest** way to do this would be to add [this dataset](https://www.kaggle.com/pavanraj159/predicting-a-pulsar-star) on Kaggle to your notebook.[See how to add data sources here on Kaggle](https://www.kaggle.com/docs/notebooks#adding-data-sources)  
@@ -61,9 +62,31 @@ targets=torch.from_numpy(targets_arr).type(torch.long)
 ```
 4. Create a Tensor Dataset for PyTorch
 ```python
+from torch.utils.data import TensorDataset
 dataset = TensorDataset(inputs,targets)
 ```  
 
+#### Split the dataset
+Now we can split the dataset into training and validation(this is a supervised model after all)
+1. Set the size of the two datasets
+```python
+num_rows=df.shape[0]
+val_percent = .1 # Controls(%) how much of the dataset to use as validation
+val_size = int(num_rows * val_percent)
+train_size = num_rows - val_size
+```
+2. Random split
+```python
+from torch.utils.data import random_split
+torch.manual_seed(2)#Ensure that we get the same validation each time.
+train_ds, val_ds = random_split(dataset, (train_size, val_size))
+train_ds[5]
+```
+3. I would recommend to set the batch size right about now.
+I am going to pick 200, but adjust this to you needs.
+```python
+batch_size=200
+```
 
 
 ---
