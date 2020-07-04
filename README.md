@@ -63,11 +63,11 @@ targets=torch.from_numpy(targets_arr).type(torch.long)
 ```python
 dataset = TensorDataset(inputs,targets)
 ```  
-<br />
+
 
 
 ---
-# Credits
+## Credits
 
 R. J. Lyon, B. W. Stappers, S. Cooper, J. M. Brooke, J. D. Knowles,
 Fifty Years of Pulsar Candidate Selection: From simple filters to a new
