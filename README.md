@@ -24,7 +24,7 @@ In this project, I decided to create a very simple Logistic Regression model (no
 
 The **easiest** way to do this would be to add [this dataset](https://www.kaggle.com/pavanraj159/predicting-a-pulsar-star) on Kaggle
 
-<iframe  title="YouTube video player" width="480" height="390" src="http://www.youtube.com/watch?v=clWICXLpnMo?autoplay=1" frameborder="0" allowfullscreen></iframe>
+
 
 # Credits
 
