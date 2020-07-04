@@ -3,7 +3,7 @@
 To learn about pulsars, watch these two videos-
 
 - https://www.youtube.com/watch?v=gjLk_72V9Bw -This is by NASA's Goddard Space Center
-- https://www.youtube.com/watch?v=bKkh7viXjqs - By Astronomate.  
+- (https://www.youtube.com/watch?v=bKkh7viXjqs) - By Astronomate.  
 
 I would **highly** recommend that you read this post:
 - [https://as595.github.io/classification/](https://as595.github.io/classification/)
@@ -18,6 +18,13 @@ I would **highly** recommend that you read this post:
 | 4   | 88.726562                      | 40.672225                                    | 0.600866                                  | 1.123492                           | 1.178930                 | 11.468720                              | 14.269573                           | 252.567306                             | 252.567306                   | 0             |
 
 ## Designing the model
+In this project, I decided to create a very simple Logistic Regression model (no ResNets be seen) that classifies pulsars.  
+### Ingest Data
+![Gif on Giphy](https://media.giphy.com/media/l2QDSUB9ToTh8mucM/giphy-downsized.gif)  
+
+The **easiest** way to do this would be to add [this dataset](https://www.kaggle.com/pavanraj159/predicting-a-pulsar-star) on Kaggle
+
+<iframe  title="YouTube video player" width="480" height="390" src="http://www.youtube.com/watch?v=clWICXLpnMo?autoplay=1" frameborder="0" allowfullscreen></iframe>
 
 # Credits
 
@@ -25,3 +32,6 @@ R. J. Lyon, B. W. Stappers, S. Cooper, J. M. Brooke, J. D. Knowles,
 Fifty Years of Pulsar Candidate Selection: From simple filters to a new
 principled real-time classification approach, Monthly Notices of the
 Royal Astronomical Society 459 (1), 1104-1123, DOI: 10.1093/mnras/stw656
+## Links
+- You can use an "image" data set called [HTRU1](https://github.com/as595/HTRU1) to achieve the same results(It also has a greater number of entry points at 60,000).
+- An easier way to implement this would be to use SKLearn. This would also allow you to use KNN and SVN(and other classifier models) really easily. [Check out this awesome data set on Kaggle](https://www.kaggle.com/ytaskiran/predicting-class-of-pulsars-with-ml-algorithms)
