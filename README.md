@@ -151,7 +151,7 @@ Here I decided to use a simple feed-forward neural network as in testing, it was
   - The output is 0 if it is not a pulsar or is 1 if it is a pulsar
 This would result in 8 neurons for the input layer and *crucially* two for the output layer. This is because of the Boolean output as mentioned above -one neuron will represent the probability of there being a pulsar and the other will represent the probability of signal interference  
 
-<img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800">  
+<img title="alexlenail.me/NN-SVG/index.html" src="https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/nn.png" alt="" width="1000" height="800">  
 
 Choices:
 - Maximum of 16 inner neurons in a layer- performed better than 100 neurons
@@ -292,9 +292,9 @@ history += fit_one_cycle(epochs, max_lr, model, train_dl, val_dl,
 ### Graphs  
 
 
-![Loss vs Number of Epochs](./index1.png)
-![Accuracy vs Number of Epochs](./index2.png)
-![Learning Rate vs Batch Number](./index3.png)
+![Loss vs Number of Epochs](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index1.png)
+![Accuracy vs Number of Epochs](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index2.png)
+![Learning Rate vs Batch Number](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index3.png)
 ---
 ## Credits and Citations
 - [alexlenail.me](https://alexlenail.me/NN-SVG/index.html) for the Neural network design program.
