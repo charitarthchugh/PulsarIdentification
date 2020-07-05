@@ -149,7 +149,7 @@ Here I decided to use a simple feed-forward neural network as in testing, it was
 - In the dataset, there are 8 inputs and one output
 - The output is essentially Boolean value
   - The output is 0 if it is not a pulsar or is 1 if it is a pulsar
-This would result in 8 neurons for the input layer and *crucially* two for the output layer. This is because of the Boolean output as mentioned above -one neuron will represent the probability of there being a pulsar and the other will represent the probability of signal interference    
+This would result in 8 neurons for the input layer and *crucially* two for the output layer. This is because of the Boolean output as mentioned above -one neuron will represent the probability of there being a pulsar and the other will represent the probability of signal interference  
 
 <img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800">  
 
@@ -205,7 +205,7 @@ class HTRU2Model(nn.Module):
 
     def epoch_end(self, epoch, result):
         print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, val_loss: {:.4f}, val_acc: {:.4f}".format(
-            epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc']))   
+            epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc']))
 ```
 #### Fit Function+Other functions
 I am applying the one cycle policy. Also I added a little progress bar using tqdm.
@@ -266,8 +266,8 @@ def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader,
     return history
 
 ```
-## Train the model!
-#### Define parameters
+## Train the model
+### Define parameters
 ```python
 epochs = 10
 max_lr = 0.01
@@ -275,12 +275,12 @@ grad_clip = 0.1
 weight_decay = 1e-4
 opt_func = torch.optim.Adam
 ```
-#### Do initial evaluation
+### Do initial evaluation
 ```python
 history = [evaluate(model, val_dl)]
 history
 ```
-### Train!
+### Train
 takes ~6 seconds
 ```python
 %%time
@@ -289,7 +289,7 @@ history += fit_one_cycle(epochs, max_lr, model, train_dl, val_dl,
                              weight_decay=weight_decay,
                              opt_func=opt_func)
 ```
-### Graphs!  
+### Graphs  
 
 
 ![Loss vs Number of Epochs](./index1.png)
