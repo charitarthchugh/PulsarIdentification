@@ -89,7 +89,11 @@ batch_size=200
 ```
 
 ### Designing the model
-Here I decided to use a simple feed-forward neural network for two reasons- it was a going to be a simple baseline for other potential architectures  
+Here I decided to use a simple feed-forward neural network for two reasons:
+1. It was a going to be a simple baseline for other potential architectures
+2. It was able to achieve a low validation loss and high accuracy(97%) and was in line with other notebooks that I saw with this dataset.
+
+![http://alexlenail.me/NN-SVG/index.html](./nn.svg)   
 
 ---
 ## Credits
