@@ -102,7 +102,45 @@ Now we can split the dataset into training and validation(this is a supervised m
    ```python
    batch_size=200
    ```
+#### Sidenote- Good time to create data loaders
+I am giving you the option of using a GPU, but I highly do not recommend doing this as you don't need it.
+```python
+from torch.utils.data import DataLoader
+# PyTorch data loaders
+train_dl = DataLoader(train_ds, batch_size, shuffle=True, num_workers=3, pin_memory=True)
+val_dl = DataLoader(val_ds, batch_size*2, num_workers=3, pin_memory=True)
+#Transfer to GPU if available
+def get_default_device():
+    """Pick GPU if available, else CPU"""
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    else:
+        return torch.device('cpu')
 
+def to_device(data, device):
+    """Move tensor(s) to chosen device"""
+    if isinstance(data, (list,tuple)):
+        return [to_device(x, device) for x in data]
+    return data.to(device, non_blocking=True)
+
+class DeviceDataLoader():
+    """Wrap a dataloader to move data to a device"""
+    def __init__(self, dl, device):
+        self.dl = dl
+        self.device = device
+
+    def __iter__(self):
+        """Yield a batch of data after moving it to device"""
+        for b in self.dl:
+            yield to_device(b, self.device)
+
+    def __len__(self):
+        """Number of batches"""
+        return len(self.dl)
+device=get_default_device()
+train_dl = DeviceDataLoader(train_dl, device)
+val_dl = DeviceDataLoader(val_dl, device)
+```
 ### Designing the model
 
 Here I decided to use a simple feed-forward neural network as in testing, it was able to reach a really good validation loss and accuracy.
@@ -116,8 +154,17 @@ This would result in 8 neurons for the input layer and *crucially* two for the o
 
 <img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800" data-align="center">  
 
-I ended up choosing to have 16 inner neurons in a layer for the final model- It performed better than 100 nuerons- and have two hidden layers
-### Create the model class, fit function, and data loaders
+Choices:
+- Maximum of 16 inner neurons in a layer- performed better than 100 neurons
+- Two hidden layers.
+- 10 epochs.
+- Adam Optimizer
+- One cycle policy
+- Gradient Clipping(.1)
+- Weight decay(1e-4)
+- Max learning rate of .1  
+
+### Create the model class and fit function
 #### Model Class
 ```python
 import torch.nn.functional as F
@@ -164,8 +211,91 @@ class HTRU2Model(nn.Module):
 #### Fit Function+Other functions
 I am applying the one cycle policy. Also I added a little progress bar using tqdm.
 ```python
-from tqdm.notbook
+from tqdm.notebook import tqdm
+def accuracy(outputs, labels):
+    _, preds = torch.max(outputs, dim=1)
+    return torch.tensor(torch.sum(preds == labels).item() / len(preds))
+
+@torch.no_grad()
+def evaluate(model, val_loader):
+    model.eval()
+    outputs = [model.validation_step(batch) for batch in val_loader]
+    return model.validation_epoch_end(outputs)
+
+def get_lr(optimizer):
+    for param_group in optimizer.param_groups:
+        return param_group['lr']
+
+def fit_one_cycle(epochs, max_lr, model, train_loader, val_loader,
+                  weight_decay=0, grad_clip=None, opt_func=optim.Adam):
+    torch.cuda.empty_cache()
+    history = []
+
+    # Set up cutom optimizer with weight decay
+    optimizer = opt_func(model.parameters(), max_lr, weight_decay=weight_decay)
+    # Set up one-cycle learning rate scheduler
+    sched = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr, epochs=epochs,
+                                                steps_per_epoch=len(train_loader))
+
+    for epoch in range(epochs):
+        # Training Phase
+        model.train()
+        train_losses = []
+        lrs = []
+        for batch in tqdm(train_loader):
+            loss = model.training_step(batch)
+            train_losses.append(loss)
+            loss.backward()
+
+            # Gradient clipping
+            if grad_clip:
+                nn.utils.clip_grad_value_(model.parameters(), grad_clip)
+
+            optimizer.step()
+            optimizer.zero_grad()
+
+            # Record & update learning rate
+            lrs.append(get_lr(optimizer))
+            sched.step()
+
+        # Validation phase
+        result = evaluate(model, val_loader)
+        result['train_loss'] = torch.stack(train_losses).mean().item()
+        result['lrs'] = lrs
+        model.epoch_end(epoch, result)
+        history.append(result)
+    return history
+
 ```
+## Train the model!
+#### Define parameters
+```python
+epochs = 10
+max_lr = 0.01
+grad_clip = 0.1
+weight_decay = 1e-4
+opt_func = torch.optim.Adam
+```
+#### Do initial evaluation
+```python
+history = [evaluate(model, val_dl)]
+history
+```
+### Train!
+takes ~6 seconds
+```python
+%%time
+history += fit_one_cycle(epochs, max_lr, model, train_dl, val_dl,
+                             grad_clip=grad_clip,
+                             weight_decay=weight_decay,
+                             opt_func=opt_func)
+```
+### Graphs!  
+
+
+![Loss vs Number of Epochs](./index1.png)
+![Accuracy vs Number of Epochs](./index2.png)
+![Learning Rate vs Batch Number](./index3.png)
 ---
 ## Credits and Citations
 - [alexlenail.me](https://alexlenail.me/NN-SVG/index.html) for the Neural network design program.
