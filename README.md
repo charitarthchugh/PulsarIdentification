@@ -19,7 +19,7 @@ I would **highly** recommend that you read this post:
 | 3   | 136.750000                     | 57.178449                                    | -0.068415                                 | -0.636238                          | 3.642977                 | 20.959280                              | 6.896499                            | 53.593661                              | 53.593661                    | 0            |
 | 4   | 88.726562                      | 40.672225                                    | 0.600866                                  | 1.123492                           | 1.178930                 | 11.468720                              | 14.269573                           | 252.567306                             | 252.567306                   | 0            |
 
-## Designing and Creating the model
+## Implementation
 
 In this project, I decided to create a very simple Logistic Regression model (no ResNets be seen) that classifies pulsars.  
 
@@ -68,7 +68,7 @@ with zipfile.ZipFile("./HTRU2.zip", 'r') as zip_ref:
 
    ```python
    import torch
-   inputs=torch.from_numpy(inputs_arr).type(torch.float64)
+   inputs=torch.from_numpy(inputs_arr).type(torch.float64)# make sure to not change the types.
    targets=torch.from_numpy(targets_arr).type(torch.long)
    ```
 4. Create a Tensor Dataset for PyTorch
@@ -116,10 +116,56 @@ This would result in 8 neurons for the input layer and *crucially* two for the o
 
 <img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800" data-align="center">  
 
-I chose to have a maximum of 16 hidden neurons in a layer
+I ended up choosing to have 16 inner neurons in a layer for the final model- It performed better than 100 nuerons- and have two hidden layers
+### Create the model class, fit function, and data loaders
+#### Model Class
+```python
+import torch.nn.functional as F
+class HTRU2Model(nn.Module):
+    def __init__(self,):
+        super(HTRU2Model,self).__init__()
+        self.linear1 = nn.Linear(8, 16)
+        self.linear2 = nn.Linear(16, 16)
+        self.linear3 = nn.Linear(16, 2)
+        self.softmax = nn.Softmax(dim=1)
+    def forward(self, x):
+        x = x.float()# This is necessary or it would cause errors.
+        x = self.linear1(x)
+        x = F.relu(x)#I prefer to use activations functions like this, feel  
+        x = self.linear2(x)
+        x = F.relu(x)
+        x = self.linear3(x)
+        x = self.linear3(x)
+        return x
+    def training_step(self, batch):
+        inputs, targets = batch
+        out = self(inputs)                  # Generate predictions
+        loss = F.cross_entropy(out, targets) # Calculate loss
+        return loss
 
-### Create the model class
+    def validation_step(self, batch):
+        inputs, targets = batch
+        out = self(inputs)                    # Generate predictions
+        loss = F.cross_entropy(out, targets)   # Calculate loss
+        acc = accuracy(out, targets)           # Calculate accuracy
+        return {'val_loss': loss.detach(), 'val_acc': acc}
 
+    def validation_epoch_end(self, outputs):
+        batch_losses = [x['val_loss'] for x in outputs]
+        epoch_loss = torch.stack(batch_losses).mean()   # Combine losses
+        batch_accs = [x['val_acc'] for x in outputs]
+        epoch_acc = torch.stack(batch_accs).mean()      # Combine accuracies
+        return {'val_loss': epoch_loss.item(), 'val_acc': epoch_acc.item()}
+
+    def epoch_end(self, epoch, result):
+        print("Epoch [{}], last_lr: {:.5f}, train_loss: {:.4f}, val_loss: {:.4f}, val_acc: {:.4f}".format(
+            epoch, result['lrs'][-1], result['train_loss'], result['val_loss'], result['val_acc']))   
+```
+#### Fit Function+Other functions
+I am applying the one cycle policy. Also I added a little progress bar using tqdm.
+```python
+from tqdm.notbook
+```
 ---
 ## Credits and Citations
 - [alexlenail.me](https://alexlenail.me/NN-SVG/index.html) for the Neural network design program.
