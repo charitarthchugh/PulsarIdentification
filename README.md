@@ -111,36 +111,34 @@ train_dl = DataLoader(train_ds, batch_size, shuffle=True, num_workers=3, pin_mem
 val_dl = DataLoader(val_ds, batch_size*2, num_workers=3, pin_memory=True)
 #Transfer to GPU if available
 def get_default_device():
-    """Pick GPU if available, else CPU"""
+    #Pick GPU if available, else CPU
     if torch.cuda.is_available():
         return torch.device('cuda')
     else:
         return torch.device('cpu')
-
 def to_device(data, device):
-    """Move tensor(s) to chosen device"""
+    #Move tensor(s) to chosen device
     if isinstance(data, (list,tuple)):
         return [to_device(x, device) for x in data]
     return data.to(device, non_blocking=True)
-
 class DeviceDataLoader():
-    """Wrap a dataloader to move data to a device"""
+    # Wrap a dataloader to move data to a device
     def __init__(self, dl, device):
         self.dl = dl
         self.device = device
 
     def __iter__(self):
-        """Yield a batch of data after moving it to device"""
+        # Yield a batch of data after moving it to device
         for b in self.dl:
             yield to_device(b, self.device)
 
     def __len__(self):
-        """Number of batches"""
-        return len(self.dl)
-device=get_default_device()
+        #Number of batches
+        return len(self.dl)        
+device= get_default_device()
 train_dl = DeviceDataLoader(train_dl, device)
 val_dl = DeviceDataLoader(val_dl, device)
-```
+
 ### Designing the model
 
 Here I decided to use a simple feed-forward neural network as in testing, it was able to reach a really good validation loss and accuracy.
@@ -152,7 +150,7 @@ Here I decided to use a simple feed-forward neural network as in testing, it was
   - The output is 0 if it is not a pulsar or is 1 if it is a pulsar
 This would result in 8 neurons for the input layer and *crucially* two for the output layer. This is because of the Boolean output as mentioned above -one neuron will represent the probability of there being a pulsar and the other will represent the probability of signal interference    
 
-<img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800" data-align="center">  
+<img title="alexlenail.me/NN-SVG/index.html" src="./nn.png" alt="" width="1000" height="800">  
 
 Choices:
 - Maximum of 16 inner neurons in a layer- performed better than 100 neurons
