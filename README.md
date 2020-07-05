@@ -138,6 +138,7 @@ class DeviceDataLoader():
 device= get_default_device()
 train_dl = DeviceDataLoader(train_dl, device)
 val_dl = DeviceDataLoader(val_dl, device)
+```
 
 ### Designing the model
 
