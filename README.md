@@ -88,6 +88,8 @@ I am going to pick 200, but adjust this to you needs.
 batch_size=200
 ```
 
+### Designing the model
+Here I decided to use a simple feed-forward neural network for two reasons- it was a going to be a simple baseline for other potential architectures  
 
 ---
 ## Credits
