@@ -290,8 +290,6 @@ history += fit_one_cycle(epochs, max_lr, model, train_dl, val_dl,
                              opt_func=opt_func)
 ```
 ### Graphs  
-
-
 ![Loss vs Number of Epochs](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index1.png)
 ![Accuracy vs Number of Epochs](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index2.png)
 ![Learning Rate vs Batch Number](https://raw.githubusercontent.com/charitarthchugh/PulsarIdentification/master/index3.png)
